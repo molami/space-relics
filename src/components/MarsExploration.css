@@ -1,0 +1,1248 @@
+
+/* ========================================
+   MARS EXPLORATION — MAIN CONTROLS
+======================================== */
+
+.mars-exploration {
+  --mars-brown: #804a2b;
+  --mars-brown-hover: #65371f;
+  --mars-orange: #c47b4d;
+  --mars-light-orange: #e6a477;
+  --mars-dark: #192640;
+
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  background-color: #21110b;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ========================================
+   DISCOVERY MARKERS
+======================================== */
+
+.mars-discovery-pin {
+  position: absolute;
+  z-index: 2;
+
+  width: clamp(70px, 7.5vw, 110px);
+  aspect-ratio: 110 / 135;
+
+  padding: 0;
+  border: 0;
+  background: transparent;
+
+  transform: translate(-50%, -50%);
+
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  touch-action: manipulation;
+}
+
+.mars-discovery-pin-shape {
+  position: relative;
+  z-index: 2;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  overflow: visible;
+
+  filter:
+    drop-shadow(0 0 7px rgba(224, 143, 94, 0.85))
+    drop-shadow(0 0 17px rgba(190, 102, 53, 0.65));
+
+  transition: filter 0.25s ease;
+}
+
+.mars-discovery-pin-outline {
+  fill: rgba(128, 74, 43, 0.2);
+  stroke: #ffffff;
+  stroke-width: 4;
+}
+
+.mars-discovery-pin-ring {
+  fill: none;
+  stroke: var(--mars-orange);
+  stroke-width: 5;
+}
+
+.mars-discovery-pin-inner {
+  fill: #ffffff;
+}
+
+.mars-discovery-pin-symbol {
+  fill: #14213b;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 54px;
+  font-weight: 600;
+}
+
+.mars-discovery-pin-glow {
+  position: absolute;
+  z-index: 1;
+
+  top: 40%;
+  left: 50%;
+
+  width: 155%;
+  aspect-ratio: 1;
+
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    rgba(230, 164, 119, 0.5) 0%,
+    rgba(196, 123, 77, 0.24) 42%,
+    transparent 75%
+  );
+
+  animation: marsBeaconPulse 2.6s ease-in-out infinite;
+
+  pointer-events: none;
+}
+
+.mars-discovery-pin:hover:not(:disabled)
+.mars-discovery-pin-shape {
+  filter:
+    drop-shadow(0 0 12px rgba(255, 190, 135, 1))
+    drop-shadow(0 0 28px rgba(196, 123, 77, 0.9));
+}
+
+.mars-discovery-pin:focus-visible {
+  outline: 3px solid #f1b68e;
+  outline-offset: 5px;
+  border-radius: 50%;
+}
+
+.mars-discovery-pin:disabled {
+  cursor: default;
+}
+
+.mars-discovery-pin--found .mars-discovery-pin-ring {
+  stroke: var(--mars-light-orange);
+}
+
+.mars-discovery-pin--found .mars-discovery-pin-symbol {
+  fill: var(--mars-brown);
+  font-size: 45px;
+}
+
+.mars-discovery-pin--found .mars-discovery-pin-glow {
+  animation: none;
+  opacity: 0.65;
+}
+
+@keyframes marsBeaconPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    scale: 0.9;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1.12;
+  }
+}
+
+/* ========================================
+   DISCOVERY PROGRESS PANEL
+======================================== */
+
+.mars-progress-panel {
+  position: absolute;
+  z-index: 3;
+
+  left: 3.2%;
+  bottom: 6%;
+
+  width: min(675px, 55vw);
+  max-width: calc(100% - 30px);
+
+  padding: 20px 26px 24px;
+
+  background: var(--mars-brown);
+  border: 2px solid #ffffff;
+  border-radius: 28px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.mars-progress-instruction {
+  margin: 0 0 22px;
+
+  color: #ffffff;
+
+  font-size: clamp(14px, 1.4vw, 20px);
+  font-weight: 600;
+  line-height: 1.4;
+
+  overflow-wrap: break-word;
+}
+
+.mars-progress-instruction:last-child {
+  margin-bottom: 0;
+}
+
+.mars-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+  min-width: 0;
+}
+
+.mars-progress-count {
+  flex-shrink: 0;
+
+  font-size: clamp(13px, 1.25vw, 18px);
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.mars-progress-track {
+  position: relative;
+
+  flex: 1;
+  min-width: 0;
+
+  height: 5px;
+  margin: 14px 15px;
+
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+}
+
+.mars-progress-dot {
+  position: absolute;
+  top: 50%;
+
+  width: 28px;
+  height: 28px;
+
+  transform: translate(-50%, -50%);
+
+  background: #ffffff;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+}
+
+.mars-progress-dot--complete {
+  background: var(--mars-orange);
+
+  box-shadow:
+    0 0 12px rgba(230, 164, 119, 0.8);
+}
+
+/* ========================================
+   SCANNING OVERLAY
+======================================== */
+
+.mars-scan-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  pointer-events: auto;
+}
+
+.mars-scan-card {
+  position: relative;
+
+  width: min(500px, 90vw);
+  height: min(480px, 65dvh);
+  min-height: 0;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  border-radius: 22px;
+
+  background: rgba(100, 100, 110, 0.6);
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(196, 123, 77, 0.2);
+
+  animation: marsScanAppear 0.35s ease-out;
+}
+
+.mars-scan-image {
+  position: absolute;
+  inset: -12px;
+
+  width: calc(100% + 24px);
+  height: calc(100% + 24px);
+
+  object-fit: cover;
+  object-position: center;
+
+  filter: blur(5px);
+  transform: scale(1.02);
+}
+
+.mars-scan-glass {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(170, 155, 145, 0.4);
+
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.mars-scan-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(20px, 5vh, 42px);
+
+  padding: 20px;
+}
+
+.mars-scan-content h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 700;
+  line-height: 1.25;
+
+  text-align: center;
+  overflow-wrap: break-word;
+
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.55);
+}
+
+.mars-scan-track {
+  flex-shrink: 0;
+
+  width: 100%;
+  height: 26px;
+
+  overflow: hidden;
+
+  background: rgba(55, 35, 30, 0.35);
+
+  border: 1px solid #ffffff;
+  border-radius: 30px;
+
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.mars-scan-fill {
+  display: block;
+
+  width: 0;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    #a94430 0%,
+    #cf7547 55%,
+    #f2a66e 100%
+  );
+
+  box-shadow:
+    0 0 15px rgba(207, 117, 71, 0.5);
+
+  transition: width 0.08s linear;
+}
+
+@keyframes marsScanAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ========================================
+   EQUIPMENT INFORMATION OVERLAY
+======================================== */
+
+.mars-details-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.mars-details-card {
+  position: relative;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 0.95fr)
+    minmax(0, 1.05fr);
+
+  gap: clamp(24px, 3.5vw, 50px);
+
+  width: min(1150px, 95vw);
+  max-width: 100%;
+  max-height: min(82dvh, 800px);
+
+  padding: clamp(28px, 3.5vw, 55px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  overscroll-behavior: contain;
+
+  background: #ffffff;
+
+  border: 2px solid #9caed3;
+  border-radius: 30px;
+
+  color: var(--mars-dark);
+
+  box-shadow:
+    0 20px 65px rgba(0, 0, 0, 0.35);
+
+  animation: marsDetailsAppear 0.35s ease-out;
+}
+
+@keyframes marsDetailsAppear {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   EQUIPMENT IMAGE
+======================================== */
+
+.mars-details-image-column {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  min-width: 0;
+  align-self: start;
+}
+
+.mars-details-image {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  aspect-ratio: 1 / 1;
+  max-height: 470px;
+
+  object-fit: contain;
+  object-position: center;
+
+  background: #f2e8e0;
+
+  border: 3px solid var(--mars-dark);
+  border-radius: 20px;
+}
+
+.mars-image-credit {
+  color: #5a6680;
+  font-size: 12px;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+/* ========================================
+   EQUIPMENT INFORMATION
+======================================== */
+
+.mars-details-content {
+  min-width: 0;
+  padding-right: 10px;
+}
+
+.mars-details-content h2 {
+  margin: 0 35px 22px 0;
+
+  color: var(--mars-dark);
+
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+
+  overflow-wrap: break-word;
+}
+
+.mars-details-content h3 {
+  margin: 24px 0 9px;
+
+  color: var(--mars-dark);
+
+  font-size: clamp(17px, 1.5vw, 21px);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.mars-details-content p {
+  margin: 0 0 12px;
+
+  color: #26344e;
+
+  font-size: 15px;
+  line-height: 1.65;
+
+  overflow-wrap: break-word;
+}
+
+.mars-mission-facts {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+  margin: 0;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.mars-mission-facts div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.mars-mission-facts dt {
+  font-weight: 700;
+}
+
+.mars-mission-facts dd {
+  margin: 0;
+  color: #26344e;
+
+  overflow-wrap: anywhere;
+}
+
+/* ========================================
+   NASA SOURCE LINK
+======================================== */
+
+.mars-nasa-source {
+  display: inline-block;
+
+  max-width: 100%;
+  margin: 14px 0 22px;
+
+  color: #a4522d;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  overflow-wrap: anywhere;
+
+  transition: color 0.2s ease;
+}
+
+.mars-nasa-source:hover {
+  color: #743719;
+}
+
+/* ========================================
+   CLOSE BUTTON
+======================================== */
+
+.mars-details-close {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 48px;
+  height: 48px;
+
+  padding: 0;
+
+  border: none;
+  background: transparent;
+
+  color: var(--mars-dark);
+
+  font-family: inherit;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.mars-details-close:hover {
+  color: var(--mars-orange);
+}
+
+/* ========================================
+   FINISH EXPLORING BUTTON
+======================================== */
+
+.mars-finish-button {
+  display: block;
+
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+
+  padding: 13px 26px;
+
+  border: 0;
+  border-radius: 30px;
+
+  background: var(--mars-brown);
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-align: center;
+  overflow-wrap: break-word;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.mars-finish-button:hover {
+  background: var(--mars-brown-hover);
+  transform: translateY(-2px);
+}
+
+.mars-finish-button:active {
+  transform: translateY(0);
+}
+
+.mars-details-close:focus-visible,
+.mars-finish-button:focus-visible,
+.mars-nasa-source:focus-visible {
+  outline: 3px solid var(--mars-light-orange);
+  outline-offset: 3px;
+}
+
+/* ========================================
+   MARS EXPLORATION COMPLETE
+======================================== */
+
+.mars-complete-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.mars-complete-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(20px, 3vh, 35px);
+
+  width: min(1150px, 88vw);
+  max-width: 100%;
+
+  min-height: min(620px, 65dvh);
+  max-height: 85dvh;
+
+  padding: clamp(35px, 5vw, 75px);
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  overscroll-behavior: contain;
+
+  background: #ffffff;
+
+  border: 2px solid #9caed3;
+  border-radius: 30px;
+
+  color: var(--mars-dark);
+
+  box-shadow:
+    0 20px 65px rgba(0, 0, 0, 0.25);
+
+  animation: marsDetailsAppear 0.4s ease-out;
+}
+
+.mars-complete-heading {
+  margin: 0;
+
+  color: var(--mars-dark);
+
+  font-size: clamp(28px, 4vw, 58px);
+  font-weight: 700;
+  line-height: 1.2;
+
+  text-align: center;
+  overflow-wrap: break-word;
+
+  text-shadow:
+    2px 2px 0 #9caed3,
+    4px 5px 3px rgba(128, 74, 43, 0.45);
+}
+
+.mars-complete-rocket {
+  font-size: clamp(80px, 10vw, 140px);
+  line-height: 1;
+  text-align: center;
+
+  flex-shrink: 0;
+}
+
+.mars-continue-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 16px;
+
+  max-width: 100%;
+  min-height: 46px;
+
+  padding: 14px 26px;
+
+  border: 2px solid #a6bee9;
+  border-radius: 40px;
+
+  background: var(--mars-brown);
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: clamp(15px, 1.5vw, 22px);
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-align: center;
+  overflow-wrap: break-word;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mars-continue-button:hover:not(:disabled) {
+  background: var(--mars-brown-hover);
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 18px rgba(128, 74, 43, 0.35);
+}
+
+.mars-continue-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.mars-continue-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.mars-continue-button:focus-visible {
+  outline: 3px solid var(--mars-light-orange);
+  outline-offset: 4px;
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1024px) {
+  .mars-progress-panel {
+    width: min(620px, 70vw);
+    padding: 18px 22px;
+  }
+
+  .mars-progress-row {
+    gap: 18px;
+  }
+
+  .mars-details-card {
+    gap: 25px;
+    padding: 35px;
+  }
+
+  .mars-details-content h2 {
+    font-size: 26px;
+  }
+
+  .mars-complete-card {
+    width: min(850px, 90vw);
+    min-height: 55dvh;
+  }
+
+  .mars-complete-heading {
+    font-size: clamp(28px, 4.5vw, 46px);
+  }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 768px) {
+  .mars-exploration {
+    background-position: 58% center;
+  }
+
+  .mars-discovery-pin {
+    width: clamp(55px, 13vw, 75px);
+  }
+
+  /* Discovery progress panel */
+
+  .mars-progress-panel {
+    left: 5%;
+    bottom: max(4%, env(safe-area-inset-bottom));
+
+    width: 90%;
+    padding: 18px 16px;
+
+    border-radius: 20px;
+  }
+
+  .mars-progress-instruction {
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+
+  .mars-progress-row {
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 12px;
+  }
+
+  .mars-progress-count {
+    font-size: 14px;
+    white-space: normal;
+  }
+
+  .mars-progress-track {
+    flex: none;
+
+    width: calc(100% - 30px);
+    margin: 12px 15px;
+  }
+
+  .mars-progress-dot {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Scanning overlay */
+
+  .mars-scan-overlay {
+    padding: 15px;
+  }
+
+  .mars-scan-card {
+    width: min(420px, 100%);
+    height: min(430px, 55dvh);
+    min-height: 0;
+  }
+
+  .mars-scan-content {
+    gap: 30px;
+  }
+
+  .mars-scan-content h2 {
+    font-size: clamp(22px, 5vw, 29px);
+  }
+
+  .mars-scan-track {
+    height: 22px;
+  }
+
+  /* Equipment information */
+
+  .mars-details-overlay {
+    padding: 15px;
+  }
+
+  .mars-details-card {
+    grid-template-columns: minmax(0, 1fr);
+
+    gap: 20px;
+
+    width: 100%;
+    max-height: calc(100dvh - 30px);
+
+    padding: 50px 22px 25px;
+
+    border-radius: 22px;
+  }
+
+  .mars-details-image {
+    max-height: 280px;
+    aspect-ratio: 4 / 3;
+  }
+
+  .mars-details-content {
+    padding-right: 0;
+  }
+
+  .mars-details-content h2 {
+    margin-right: 0;
+    font-size: 25px;
+  }
+
+  .mars-details-content h3 {
+    font-size: 18px;
+  }
+
+  .mars-details-content p {
+    font-size: 14px;
+  }
+
+  .mars-details-close {
+    top: 5px;
+    right: 12px;
+  }
+
+  .mars-finish-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Completion popup */
+
+  .mars-complete-overlay {
+    padding: 15px;
+  }
+
+  .mars-complete-card {
+    width: 100%;
+
+    min-height: min(48dvh, 500px);
+    max-height: calc(100dvh - 30px);
+
+    padding: 35px 20px;
+
+    border-radius: 22px;
+    gap: 28px;
+  }
+
+  .mars-complete-heading {
+    font-size: clamp(25px, 6vw, 36px);
+  }
+
+  .mars-complete-rocket {
+    font-size: 90px;
+  }
+
+  .mars-continue-button {
+    padding: 13px 22px;
+    font-size: 16px;
+  }
+}
+
+/* ========================================
+   SMALL MOBILE SCREENS
+======================================== */
+
+@media (max-width: 420px) {
+  .mars-discovery-pin {
+    width: clamp(48px, 13vw, 60px);
+  }
+
+  .mars-progress-panel {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .mars-progress-instruction {
+    font-size: 13px;
+    margin-bottom: 14px;
+  }
+
+  .mars-progress-count {
+    font-size: 13px;
+  }
+
+  .mars-progress-dot {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mars-details-card {
+    padding: 48px 18px 22px;
+  }
+
+  .mars-details-image {
+    max-height: 230px;
+  }
+
+  .mars-details-content h2 {
+    font-size: 23px;
+  }
+
+  .mars-complete-card {
+    padding: 30px 15px;
+    gap: 22px;
+  }
+
+  .mars-complete-heading {
+    font-size: 25px;
+  }
+
+  .mars-complete-rocket {
+    font-size: 75px;
+  }
+
+  .mars-continue-button {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   SHORT SCREENS
+======================================== */
+
+@media (max-height: 600px) {
+  .mars-progress-panel {
+    bottom: 3%;
+    padding: 12px 18px;
+  }
+
+  .mars-progress-instruction {
+    margin-bottom: 12px;
+  }
+
+  .mars-scan-card {
+    height: min(75dvh, 400px);
+    min-height: 0;
+  }
+
+  .mars-scan-content {
+    gap: 16px;
+    padding: 15px;
+  }
+
+  .mars-scan-content h2 {
+    font-size: clamp(19px, 4vh, 26px);
+  }
+
+  .mars-scan-track {
+    height: 18px;
+  }
+
+  .mars-details-card {
+    max-height: calc(100dvh - 24px);
+  }
+
+  .mars-complete-card {
+    min-height: 0;
+    max-height: calc(100dvh - 24px);
+
+    padding: 25px;
+    gap: 15px;
+  }
+
+  .mars-complete-rocket {
+    font-size: clamp(50px, 12vh, 85px);
+  }
+}
+
+/* ========================================
+   LANDSCAPE PHONES
+======================================== */
+
+@media (max-height: 480px) and (orientation: landscape) {
+  .mars-discovery-pin {
+    width: clamp(42px, 8vh, 65px);
+  }
+
+  .mars-progress-panel {
+    left: 2%;
+    bottom: 3%;
+
+    width: min(420px, 55vw);
+    padding: 10px 14px;
+
+    border-radius: 16px;
+  }
+
+  .mars-progress-instruction {
+    margin-bottom: 8px;
+
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .mars-progress-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mars-progress-count {
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+
+  .mars-progress-track {
+    flex: 1;
+    width: auto;
+
+    margin: 10px 12px;
+  }
+
+  .mars-progress-dot {
+    width: 18px;
+    height: 18px;
+  }
+
+  .mars-scan-card {
+    width: min(420px, 75vw);
+    height: 78dvh;
+  }
+
+  .mars-scan-content {
+    gap: 12px;
+  }
+
+  .mars-scan-content h2 {
+    font-size: 20px;
+  }
+
+  .mars-scan-track {
+    height: 16px;
+  }
+
+  .mars-details-overlay,
+  .mars-complete-overlay {
+    padding: 10px;
+  }
+
+  .mars-details-card {
+    max-height: calc(100dvh - 20px);
+    padding: 45px 20px 20px;
+  }
+
+  .mars-details-image {
+    max-height: 180px;
+  }
+
+  .mars-complete-card {
+    max-height: calc(100dvh - 20px);
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .mars-complete-heading {
+    font-size: 23px;
+  }
+
+  .mars-complete-rocket {
+    font-size: 48px;
+  }
+
+  .mars-continue-button {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .mars-discovery-pin-glow {
+    animation: none;
+  }
+
+  .mars-scan-card,
+  .mars-details-card,
+  .mars-complete-card {
+    animation: none;
+  }
+
+  .mars-scan-fill,
+  .mars-discovery-pin-shape,
+  .mars-finish-button,
+  .mars-nasa-source,
+  .mars-details-close,
+  .mars-continue-button {
+    transition: none;
+  }
+}

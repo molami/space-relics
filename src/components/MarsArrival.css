@@ -1,0 +1,440 @@
+
+/* ========================================
+   MARS ARRIVAL — MAIN CONTROLS
+======================================== */
+
+.mars-arrival {
+  /* LAYOUT CONTROLS */
+  --title-size: clamp(32px, 5.5vw, 80px);
+  --title-top: 0px;
+
+  --card-width: 750px;
+  --card-padding: 48px 45px;
+
+  --content-gap: clamp(60px, 16vh, 180px);
+
+  /* MARTIAN COLOURS */
+  --mars-orange: #b96c43;
+  --mars-orange-dark: #9e5634;
+
+  --mars-brown: #844a2b;
+  --mars-brown-hover: #a05b35;
+
+  --card-background: #ffffff;
+  --card-border: rgba(255, 255, 255, 0.85);
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: var(--content-gap);
+
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  padding: clamp(16px, 3vh, 36px) 24px;
+
+  box-sizing: border-box;
+
+  overflow-x: clip;
+  overflow-y: auto;
+
+  background-color: #30170e;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+
+  isolation: isolate;
+}
+
+/* ========================================
+   BACKGROUND OVERLAY
+======================================== */
+
+.mars-arrival::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    180deg,
+    rgba(30, 15, 8, 0.08) 0%,
+    rgba(45, 20, 10, 0.08) 45%,
+    rgba(40, 18, 8, 0.18) 100%
+  );
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ========================================
+   MAIN HEADING — WELCOME TO MARS
+======================================== */
+
+.mars-arrival-title {
+  position: relative;
+
+  width: 100%;
+  max-width: 1200px;
+  min-width: 0;
+
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: var(--title-size);
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1.1;
+
+  text-align: center;
+  overflow-wrap: break-word;
+
+  -webkit-text-stroke: 0.7px rgba(98, 46, 26, 0.9);
+
+  text-shadow:
+    2px 3px 0 #5c3024,
+    0 5px 8px rgba(0, 0, 0, 0.65);
+
+  z-index: 2;
+}
+
+/* ========================================
+   WHITE WELCOME CARD
+======================================== */
+
+.mars-welcome-card {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: min(var(--card-width), 100%);
+  max-width: 100%;
+
+  padding: var(--card-padding);
+
+  background: var(--card-background);
+
+  border: 1px solid var(--card-border);
+  border-radius: 30px;
+
+  color: var(--mars-orange);
+  text-align: center;
+
+  box-shadow:
+    0 16px 45px rgba(47, 20, 8, 0.2);
+
+  z-index: 2;
+}
+
+/* ========================================
+   CARD HEADING
+======================================== */
+
+.mars-welcome-card h2 {
+  max-width: 100%;
+  margin: 0 0 18px;
+
+  color: var(--mars-orange);
+
+  font-size: clamp(22px, 2.5vw, 34px);
+  font-weight: 700;
+  line-height: 1.3;
+
+  overflow-wrap: break-word;
+}
+
+/* ========================================
+   CARD DESCRIPTION
+======================================== */
+
+.mars-welcome-card p {
+  max-width: 600px;
+
+  margin: 0 0 28px;
+
+  color: var(--mars-orange);
+
+  font-size: clamp(16px, 1.7vw, 24px);
+  font-weight: 500;
+  line-height: 1.4;
+
+  overflow-wrap: break-word;
+}
+
+/* ========================================
+   BEGIN MISSION BUTTON
+======================================== */
+
+.mars-explore-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  max-width: 100%;
+  min-height: 54px;
+
+  padding: 12px 36px;
+
+  background: var(--mars-brown);
+
+  border: 2px solid #b6c7e8;
+  border-radius: 40px;
+
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: clamp(16px, 1.5vw, 22px);
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-align: center;
+  overflow-wrap: break-word;
+
+  cursor: pointer;
+
+  text-shadow:
+    1px 2px 2px rgba(0, 0, 0, 0.7);
+
+  box-shadow:
+    0 4px 12px rgba(70, 30, 15, 0.2);
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.mars-explore-button:hover {
+  background: var(--mars-brown-hover);
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 8px 22px rgba(100, 45, 20, 0.3);
+}
+
+.mars-explore-button:active {
+  transform: translateY(0);
+}
+
+.mars-explore-button:focus-visible {
+  outline: 3px solid #f0ae83;
+  outline-offset: 4px;
+}
+
+.mars-explore-button span {
+  display: inline-block;
+
+  font-size: 24px;
+  line-height: 1;
+
+  transition: transform 0.3s ease;
+}
+
+.mars-explore-button:hover span {
+  transform: translateX(4px);
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1024px) {
+  .mars-arrival {
+    --title-size: clamp(32px, 5.5vw, 65px);
+    --card-width: 650px;
+    --card-padding: 38px 32px;
+    --content-gap: clamp(45px, 9vh, 75px);
+  }
+
+  .mars-arrival-title {
+    letter-spacing: 1px;
+  }
+
+  .mars-welcome-card h2 {
+    font-size: clamp(22px, 3vw, 30px);
+  }
+
+  .mars-welcome-card p {
+    font-size: clamp(16px, 2vw, 20px);
+  }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 768px) {
+  .mars-arrival {
+    --title-size: clamp(28px, 7vw, 44px);
+    --card-padding: 30px 22px;
+    --content-gap: clamp(25px, 6vh, 45px);
+
+    padding: 30px 16px;
+
+    background-position: 55% center;
+  }
+
+  .mars-arrival-title {
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+  }
+
+  .mars-welcome-card {
+    width: 100%;
+    max-width: 480px;
+
+    border-radius: 22px;
+  }
+
+  .mars-welcome-card h2 {
+    font-size: clamp(20px, 5vw, 26px);
+    margin-bottom: 14px;
+  }
+
+  .mars-welcome-card p {
+    font-size: 15px;
+    line-height: 1.55;
+    margin-bottom: 24px;
+  }
+
+  .mars-explore-button {
+    gap: 12px;
+    padding: 12px 26px;
+
+    font-size: 16px;
+  }
+}
+
+/* ========================================
+   SMALL PHONES
+======================================== */
+
+@media (max-width: 380px) {
+  .mars-arrival {
+    --title-size: 26px;
+    --card-padding: 24px 16px;
+    --content-gap: 30px;
+
+    padding: 24px 12px;
+  }
+
+  .mars-arrival-title {
+    letter-spacing: 0;
+  }
+
+  .mars-welcome-card h2 {
+    font-size: 20px;
+  }
+
+  .mars-welcome-card p {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .mars-explore-button {
+    min-height: 46px;
+    padding: 10px 22px;
+
+    font-size: 15px;
+  }
+
+  .mars-explore-button span {
+    font-size: 20px;
+  }
+}
+
+/* ========================================
+   SHORT SCREENS
+======================================== */
+
+@media (max-height: 650px) {
+  .mars-arrival {
+    --title-size: clamp(26px, 4vw, 48px);
+    --card-padding: 22px 28px;
+    --content-gap: 24px;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .mars-welcome-card h2 {
+    margin-bottom: 10px;
+    font-size: clamp(19px, 2vw, 26px);
+  }
+
+  .mars-welcome-card p {
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+
+  .mars-explore-button {
+    min-height: 42px;
+    padding: 9px 24px;
+  }
+}
+
+/* ========================================
+   VERY SHORT LANDSCAPE SCREENS
+======================================== */
+
+@media (max-height: 420px) {
+  .mars-arrival {
+    --title-size: clamp(24px, 4vw, 36px);
+    --card-padding: 18px 24px;
+    --content-gap: 18px;
+
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  .mars-welcome-card {
+    border-radius: 18px;
+  }
+
+  .mars-welcome-card h2 {
+    margin-bottom: 8px;
+  }
+
+  .mars-welcome-card p {
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  .mars-explore-button {
+    min-height: 40px;
+    padding: 8px 20px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .mars-explore-button,
+  .mars-explore-button span {
+    transition: none;
+  }
+
+  .mars-explore-button:hover,
+  .mars-explore-button:hover span {
+    transform: none;
+  }
+}

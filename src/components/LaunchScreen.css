@@ -1,0 +1,564 @@
+
+/* ========================================
+   LAUNCH SCREEN — MAIN CONTROLS
+======================================== */
+
+.launch-screen {
+  /* IMAGE SIZES */
+  --spaceship-size: 30%;
+  --earth-size: 12%;
+  --moon-size: 11%;
+
+  /* IMAGE POSITIONS */
+  --spaceship-left: 50%;
+  --spaceship-top: 65%;
+
+  --earth-left: -5%;
+  --earth-bottom: -8%;
+
+  --moon-right: 9%;
+  --moon-top: 12%;
+
+  /* TEXT POSITIONS */
+  --heading-top: 28%;
+  --subtitle-top: 36%;
+
+  /* PROGRESS BAR */
+  --progress-top: 80%;
+  --progress-width: 42%;
+  --progress-height: 22px;
+
+  /* ANIMATION DURATION */
+  --travel-duration: 10s;
+
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+
+  overflow: hidden;
+
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+
+  isolation: isolate;
+}
+
+/* ========================================
+   EARTH
+======================================== */
+
+.launch-earth {
+  position: absolute;
+
+  width: var(--earth-size);
+  max-width: none;
+  height: auto;
+
+  left: var(--earth-left);
+  bottom: var(--earth-bottom);
+
+  z-index: 1;
+
+  transform-origin: center center;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ========================================
+   MOON
+======================================== */
+
+.launch-moon {
+  position: absolute;
+
+  width: var(--moon-size);
+  max-width: none;
+  height: auto;
+
+  top: var(--moon-top);
+  right: var(--moon-right);
+
+  z-index: 1;
+
+  transform-origin: center center;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ========================================
+   SPACESHIP
+======================================== */
+
+.launch-spaceship {
+  position: absolute;
+
+  width: var(--spaceship-size);
+  max-width: none;
+  height: auto;
+
+  top: var(--spaceship-top);
+  left: var(--spaceship-left);
+
+  transform: translate(-50%, -50%);
+
+  z-index: 2;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ========================================
+   LOADING CONTENT
+======================================== */
+
+.launch-loading {
+  position: absolute;
+  inset: 0;
+
+  z-index: 5;
+
+  pointer-events: none;
+}
+
+/* ========================================
+   LOADING HEADING
+======================================== */
+
+.launch-loading h1 {
+  position: absolute;
+
+  top: var(--heading-top);
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 90%;
+  max-width: 850px;
+
+  margin: 0;
+
+  font-size: clamp(24px, 3vw, 46px);
+  font-weight: 700;
+  line-height: 1.2;
+
+  text-align: center;
+
+  overflow-wrap: break-word;
+
+  text-shadow:
+    0 2px 12px rgba(0, 0, 0, 0.65);
+}
+
+/* ========================================
+   LOADING SUBTITLE
+======================================== */
+
+.launch-loading p {
+  position: absolute;
+
+  top: var(--subtitle-top);
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 90%;
+  max-width: 850px;
+
+  margin: 0;
+
+  font-size: clamp(15px, 1.8vw, 25px);
+  line-height: 1.4;
+
+  text-align: center;
+
+  overflow-wrap: break-word;
+
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.65);
+}
+
+/* ========================================
+   PROGRESS BAR — BLUE GRADIENT
+======================================== */
+
+.launch-progress-track {
+  position: absolute;
+
+  top: var(--progress-top);
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: var(--progress-width);
+  max-width: calc(100% - 32px);
+
+  height: var(--progress-height);
+  min-height: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  background: rgba(35, 45, 70, 0.55);
+
+  box-shadow:
+    inset 0 2px 5px rgba(0, 0, 0, 0.15),
+    0 0 12px rgba(0, 0, 0, 0.25);
+
+  z-index: 6;
+}
+
+/* Progress is controlled by React */
+
+.launch-progress-fill {
+  display: block;
+
+  width: 0;
+  height: 100%;
+
+  min-width: 0;
+
+  background: linear-gradient(
+    90deg,
+    #1747ac 0%,
+    #356fe2 55%,
+    #6397ff 100%
+  );
+
+  border-radius: inherit;
+
+  box-shadow:
+    0 0 15px rgba(70, 130, 255, 0.5);
+
+  transition: width 0.08s linear;
+}
+
+/* ========================================
+   SMOOTH TRAVELLING ANIMATIONS
+======================================== */
+
+/* Spaceship moves towards the Moon */
+
+.launch-screen.travelling .launch-spaceship {
+  animation:
+    spaceshipTravel
+    var(--travel-duration)
+    linear forwards;
+
+  will-change: transform;
+}
+
+/* Earth shrinks and fades */
+
+.launch-screen.travelling .launch-earth {
+  animation:
+    earthMoveAway
+    var(--travel-duration)
+    linear forwards;
+
+  will-change: transform, opacity;
+}
+
+/* Moon grows as we approach */
+
+.launch-screen.travelling .launch-moon {
+  animation:
+    moonApproach
+    var(--travel-duration)
+    linear forwards;
+
+  will-change: transform;
+}
+
+/* ========================================
+   SPACESHIP — APPROACHING THE MOON
+======================================== */
+
+@keyframes spaceshipTravel {
+  0% {
+    transform:
+      translate(-50%, -50%)
+      translateX(0)
+      translateY(0)
+      scale(1);
+  }
+
+  60% {
+    transform:
+      translate(-50%, -50%)
+      translateX(8vw)
+      translateY(-4vh)
+      scale(0.95);
+  }
+
+  100% {
+    transform:
+      translate(-50%, -50%)
+      translateX(14vw)
+      translateY(-7vh)
+      scale(0.9);
+  }
+}
+
+/* ========================================
+   EARTH — DISAPPEARING INTO DISTANCE
+======================================== */
+
+@keyframes earthMoveAway {
+  0% {
+    transform:
+      translate(0, 0)
+      scale(1);
+
+    opacity: 1;
+  }
+
+  60% {
+    transform:
+      translate(-20%, 10%)
+      scale(0.65);
+
+    opacity: 0.85;
+  }
+
+  100% {
+    transform:
+      translate(-40%, 25%)
+      scale(0.3);
+
+    opacity: 0.35;
+  }
+}
+
+/* ========================================
+   MOON — FINAL APPROACH
+======================================== */
+
+@keyframes moonApproach {
+  0% {
+    transform:
+      translate(0, 0)
+      scale(1);
+  }
+
+  60% {
+    transform:
+      translate(-5%, 5%)
+      scale(1.4);
+  }
+
+  100% {
+    transform:
+      translate(-10%, 10%)
+      scale(2);
+  }
+}
+
+/* ========================================
+   TABLET RESPONSIVENESS
+======================================== */
+
+@media (max-width: 1024px) {
+  .launch-screen {
+    --spaceship-size: 48%;
+    --earth-size: 20%;
+    --moon-size: 19%;
+
+    --heading-top: 25%;
+    --subtitle-top: 35%;
+
+    --progress-top: 82%;
+    --progress-width: 55%;
+  }
+
+  .launch-loading h1 {
+    font-size: clamp(26px, 4vw, 38px);
+  }
+
+  .launch-loading p {
+    font-size: clamp(16px, 2.4vw, 22px);
+  }
+}
+
+/* ========================================
+   MOBILE RESPONSIVENESS
+======================================== */
+
+@media (max-width: 768px) {
+  .launch-screen {
+    /* Spaceship */
+    --spaceship-size: 72%;
+    --spaceship-left: 50%;
+    --spaceship-top: 53%;
+
+    /* Earth */
+    --earth-size: 40%;
+    --earth-left: -18%;
+    --earth-bottom: -5%;
+
+    /* Moon */
+    --moon-size: 32%;
+    --moon-right: -5%;
+    --moon-top: 12%;
+
+    /* Text */
+    --heading-top: 23%;
+    --subtitle-top: 33%;
+
+    /* Progress */
+    --progress-top: 79%;
+    --progress-width: 80%;
+    --progress-height: 20px;
+  }
+
+  .launch-loading h1 {
+    width: 92%;
+
+    font-size: clamp(23px, 6vw, 32px);
+    line-height: 1.2;
+  }
+
+  .launch-loading p {
+    width: 90%;
+
+    font-size: clamp(15px, 4vw, 19px);
+    line-height: 1.4;
+  }
+
+  .launch-progress-track {
+    width: var(--progress-width);
+    max-width: calc(100% - 30px);
+  }
+}
+
+/* ========================================
+   SMALL PHONES
+======================================== */
+
+@media (max-width: 480px) {
+  .launch-screen {
+    --spaceship-size: 75%;
+    --spaceship-top: 54%;
+
+    --earth-size: 40%;
+    --moon-size: 34%;
+
+    --heading-top: 21%;
+    --subtitle-top: 32%;
+
+    --progress-top: 80%;
+    --progress-width: 84%;
+    --progress-height: 18px;
+  }
+
+  .launch-loading h1 {
+    width: 94%;
+    font-size: clamp(22px, 6.5vw, 29px);
+  }
+
+  .launch-loading p {
+    width: 92%;
+    font-size: clamp(14px, 4vw, 17px);
+  }
+}
+
+/* ========================================
+   VERY SMALL PHONES
+======================================== */
+
+@media (max-width: 360px) {
+  .launch-screen {
+    --spaceship-size: 72%;
+    --spaceship-top: 54%;
+
+    --heading-top: 19%;
+    --subtitle-top: 32%;
+
+    --progress-top: 81%;
+    --progress-width: 86%;
+    --progress-height: 17px;
+  }
+
+  .launch-loading h1 {
+    font-size: 22px;
+  }
+
+  .launch-loading p {
+    font-size: 14px;
+  }
+}
+
+/* ========================================
+   SHORT SCREENS / LANDSCAPE PHONES
+======================================== */
+
+@media (max-height: 600px) {
+  .launch-screen {
+    --spaceship-size: 32%;
+    --spaceship-top: 61%;
+
+    --earth-size: 18%;
+    --moon-size: 17%;
+
+    --heading-top: 14%;
+    --subtitle-top: 29%;
+
+    --progress-top: 86%;
+    --progress-width: 65%;
+    --progress-height: 16px;
+  }
+
+  .launch-loading h1 {
+    font-size: clamp(20px, 4vh, 28px);
+  }
+
+  .launch-loading p {
+    font-size: clamp(13px, 3vh, 18px);
+  }
+}
+
+/* ========================================
+   VERY SHORT SCREENS
+======================================== */
+
+@media (max-height: 420px) {
+  .launch-screen {
+    --spaceship-size: 28%;
+    --spaceship-top: 63%;
+
+    --heading-top: 10%;
+    --subtitle-top: 28%;
+
+    --progress-top: 86%;
+    --progress-height: 14px;
+  }
+
+  .launch-loading h1 {
+    font-size: 20px;
+  }
+
+  .launch-loading p {
+    font-size: 13px;
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .launch-progress-fill {
+    transition: none;
+  }
+}
