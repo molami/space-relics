@@ -61,6 +61,19 @@ Each equipment card includes its name, image, mission details, location, operati
 - Mission completion summary.
 - Links to NASA resources for further learning.
 
+## UI/UX Design Documentation
+
+The Space Relics user interface was originally designed in Figma as part of the project's planning and development process.
+
+The documentation showcases the original interface designs, screen layouts, and visual direction created for the interactive virtual museum.
+
+These designs served as the foundation for the React implementation, which was developed with AI-assisted coding.
+
+**[View Original UI/UX Design Screens](https://docs.google.com/document/d/1OF6zdBbTaIq_YlWWKol-ccXjTOXdl66GwGVcx6dQgyo/edit?usp=sharing)**
+
+**Design:** Ayandele Adedoyin  
+**Design Tool:** Figma  
+**Implementation:** React, JavaScript, CSS, and AI-assisted coding with ChatGPT.
 ## Multilingual Accessibility
 
 Space Relics supports eight languages:
