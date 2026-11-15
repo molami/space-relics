@@ -146,6 +146,7 @@ The project concept, creative direction, user experience, interface designs, equ
 - Implementing navigation, scanning animations, discovery interactions, and mission progression.
 - Assisting with educational content writing, editing, and multilingual translations.
 - Supporting research and preparation of project documentation and presentation materials.
+- Generating the space rocket artwork featured in the application.
 
 The creator directed the development process, reviewed and tested the generated code, identified issues, requested corrections, and managed the project's final deployment.
 
